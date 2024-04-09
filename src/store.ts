@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 
-interface Issue {
+export interface Issue {
   id: number;
   title: string;
   number: number;
@@ -9,6 +9,8 @@ interface Issue {
   user: { login: string };
   created_at: Date;
   opened: string;
+  assignee: string;
+  state: string;
 }
 
 interface StoreState {

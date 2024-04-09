@@ -1,12 +1,4 @@
-
-interface Issue {
-    id: string;
-    title: string;
-    number: number;
-    status: string;
-    author: string;
-    coments: number;
-  }
+import { Issue } from "../../store";
 
 export async function fetchIssues(repoURL: string): Promise<Issue[]> {
     try {
@@ -22,8 +14,7 @@ export async function fetchIssues(repoURL: string): Promise<Issue[]> {
       }
       const data = await response.json();
       console.log(data)
-  
-      return data;
+        return data;
     } catch (error) {
       console.error("Error fetching:", error);
       throw error;

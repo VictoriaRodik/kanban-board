@@ -1,16 +1,8 @@
 import React from "react";
+import { Issue } from "../../store";
 import { Card, Flex } from "antd";
 import { styles } from "./IssueCard.styles"
 
-interface Issue {
-  id: number;
-  title: string;
-  number: number;
-  comments: number;
-  user: { login: string };
-  created_at: Date;
-  opened: string;
-}
 
 const IssueCard: React.FC<{ issue: Issue }> = ({ issue }) => {
   const calculateTime = () => {
