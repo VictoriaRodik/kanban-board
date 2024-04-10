@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Droppable } from "react-beautiful-dnd";
 import IssueCard from "../IssueCard/IssueCard";
 import { useStore } from "../../store";
@@ -11,15 +11,15 @@ interface Props {
 }
 
 const Column: React.FC<Props> = ({ columnTitle, columnId }) => {
-  const { issues } = useStore();
+  const { issues, setIssues } = useStore();
 
 
   const getColumnIssues = () => {
-    if (columnTitle === "To Do") {
+    if (columnId === "1") {
       return issues.filter(
         (issue) => issue.state === "open" && issue.assignee === null
       );
-    } else if (columnTitle === "In Progress") {
+    } else if (columnId === "2") {
       return issues.filter(
         (issue) => issue.state === "open" && issue.assignee !== null
       );
@@ -28,8 +28,19 @@ const Column: React.FC<Props> = ({ columnTitle, columnId }) => {
     }
   };
 
+  useEffect(() => {
+    const savedIssues = sessionStorage.getItem('issues');
+    if (savedIssues) {
+      setIssues(JSON.parse(savedIssues));
+    }
+  }, [setIssues]);
+
+  useEffect(() => {
+    sessionStorage.setItem('issues', JSON.stringify(issues));
+  }, [issues]);
+
   return (
-    <Droppable droppableId={columnId}>
+    <Droppable droppableId={columnId.toString()}>
       {(provided) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
           <List

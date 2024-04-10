@@ -1,21 +1,17 @@
 import React from "react";
 import Column from "../Column/Column";
 import { Flex } from "antd";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DropResult, DragDropContext } from "react-beautiful-dnd";
 import { useStore } from "../../store";
 
 const assignee = {
   id: 127191734,
-  login: "login",
-  node_id: "U_kgDOB5TKtg",
-  site_admin: false,
-  type: "User",
 };
 
 const Board: React.FC = () => {
   const { issues, setIssues } = useStore();
 
-  const handleDragEnd = (result: any) => {
+  const handleDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -31,9 +27,8 @@ const Board: React.FC = () => {
 
     const updatedIssues = [...issues];
     const draggedIssueIndex = updatedIssues.findIndex(
-      (issue) => issue.id === draggableId
+      (issue) => issue.id.toString() === draggableId
     );
-    console.log(draggedIssueIndex);
     const [draggedIssue] = updatedIssues.splice(draggedIssueIndex, 1);
     const newColumn = destination.droppableId;
 

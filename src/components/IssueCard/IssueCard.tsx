@@ -24,7 +24,7 @@ const IssueCard: React.FC<{ issue: Issue; index: number }> = ({
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <Card bordered={false} style={styles.cardContainer} hoverable>
+          <Card bordered style={styles.cardContainer} hoverable>
             <Flex>
               <p style={styles.cardTitle}>{issue.title}</p>
             </Flex>
