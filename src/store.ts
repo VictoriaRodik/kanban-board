@@ -9,7 +9,7 @@ export interface Issue {
   user: { login: string };
   created_at: Date;
   opened: string;
-  assignee: string;
+  assignee: {id: number};
   state: string;
 }
 

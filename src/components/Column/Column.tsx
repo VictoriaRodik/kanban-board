@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Droppable } from "react-beautiful-dnd";
 import IssueCard from "../IssueCard/IssueCard";
 import { useStore } from "../../store";
 import { styles } from "./Column.styles";
@@ -6,51 +7,49 @@ import { List, Typography } from "antd";
 
 interface Props {
   columnTitle: string;
+  columnId: string;
 }
 
-const Column: React.FC<Props> = ({ columnTitle }) => {
-  const { issues, setIssues } = useStore();
+const Column: React.FC<Props> = ({ columnTitle, columnId }) => {
+  const { issues } = useStore();
 
-  const toDoIssues = issues.filter(
-    (issue) => issue.state === "open" && issue.assignee === null
-  );
-  const inProgressIssues = issues.filter(
-    (issue) => issue.state === "open" && issue.assignee !== null
-  );
-  const doneDoIssues = issues.filter((issue) => issue.state === "closed");
 
-  useEffect(() => {
-    const savedIssues = sessionStorage.getItem('issues');
-    if (savedIssues) {
-      setIssues(JSON.parse(savedIssues));
+  const getColumnIssues = () => {
+    if (columnTitle === "To Do") {
+      return issues.filter(
+        (issue) => issue.state === "open" && issue.assignee === null
+      );
+    } else if (columnTitle === "In Progress") {
+      return issues.filter(
+        (issue) => issue.state === "open" && issue.assignee !== null
+      );
+    } else {
+      return issues.filter((issue) => issue.state === "closed");
     }
-  }, [setIssues]);
-
-  useEffect(() => {
-    sessionStorage.setItem('issues', JSON.stringify(issues));
-  }, [issues]);
+  };
 
   return (
-    <List
-      style={styles.columnContainer}
-      header={
-        <Typography.Title level={4} style={styles.columnTitle}>
-          {columnTitle}
-        </Typography.Title>
-      }
-      dataSource={
-        columnTitle === "To Do"
-          ? toDoIssues
-          : columnTitle === "In Progress"
-          ? inProgressIssues
-          : doneDoIssues
-      }
-      renderItem={(issue) => (
-        <List.Item>
-          <IssueCard key={issue.id} issue={issue} />
-        </List.Item>
+    <Droppable droppableId={columnId.toString()}>
+      {(provided) => (
+        <div ref={provided.innerRef} {...provided.droppableProps}>
+          <List
+            style={styles.columnContainer}
+            header={
+              <Typography.Title level={4} style={styles.columnTitle}>
+                {columnTitle}
+              </Typography.Title>
+            }
+            dataSource={getColumnIssues()}
+            renderItem={(issue, index) => (
+              <List.Item>
+                <IssueCard key={issue.id} issue={issue} index={index} />
+              </List.Item>
+            )}
+          />
+          {provided.placeholder}
+        </div>
       )}
-    />
+    </Droppable>
   );
 };
 
