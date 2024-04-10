@@ -33,13 +33,13 @@ const Board: React.FC = () => {
     const draggedIssueIndex = updatedIssues.findIndex(
       (issue) => issue.id === draggableId
     );
-
+    console.log(draggedIssueIndex);
     const [draggedIssue] = updatedIssues.splice(draggedIssueIndex, 1);
     const newColumn = destination.droppableId;
 
-    if (newColumn === "In Progress") {
+    if (newColumn === "2") {
       draggedIssue.assignee = assignee;
-    } else if (newColumn === "Done") {
+    } else if (newColumn === "3") {
       draggedIssue.state = "closed";
     }
 

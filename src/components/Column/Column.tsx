@@ -29,7 +29,7 @@ const Column: React.FC<Props> = ({ columnTitle, columnId }) => {
   };
 
   return (
-    <Droppable droppableId={columnId.toString()}>
+    <Droppable droppableId={columnId}>
       {(provided) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
           <List
