@@ -1,5 +1,6 @@
-import React, {useEffect} from "react";
-import { Droppable } from "react-beautiful-dnd";
+import React, { useEffect, useState } from "react";
+import { Issue } from "../../store";
+import { Droppable, Draggable, DroppableProvided, DraggableProvided } from "react-beautiful-dnd";
 import IssueCard from "../IssueCard/IssueCard";
 import { useStore } from "../../store";
 import { styles } from "./Column.styles";
@@ -11,37 +12,30 @@ interface Props {
 }
 
 const Column: React.FC<Props> = ({ columnTitle, columnId }) => {
-  const { issues, setIssues } = useStore();
-
-
-  const getColumnIssues = () => {
-    if (columnId === "1") {
-      return issues.filter(
-        (issue) => issue.state === "open" && issue.assignee === null
-      );
-    } else if (columnId === "2") {
-      return issues.filter(
-        (issue) => issue.state === "open" && issue.assignee !== null
-      );
-    } else {
-      return issues.filter((issue) => issue.state === "closed");
-    }
-  };
+  const { issues } = useStore();
+  const [filteredIssues, setFilteredIssues] = useState<Issue[]>([]);
 
   useEffect(() => {
-    const savedIssues = sessionStorage.getItem('issues');
-    if (savedIssues) {
-      setIssues(JSON.parse(savedIssues));
-    }
-  }, [setIssues]);
+    const filtered = issues.filter((issue) => {
+      if (columnId === "1") {
+        return issue.state === "open" && issue.assignee === null;
+      } else if (columnId === "2") {
+        return issue.state === "open" && issue.assignee !== null;
+      } else {
+        return issue.state === "closed";
+      }
+    });
+
+    setFilteredIssues(filtered);
+  }, [columnId, issues]);
 
   useEffect(() => {
     sessionStorage.setItem('issues', JSON.stringify(issues));
   }, [issues]);
 
   return (
-    <Droppable droppableId={columnId.toString()}>
-      {(provided) => (
+    <Droppable droppableId={columnId} >
+      {(provided: DroppableProvided) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
           <List
             style={styles.columnContainer}
@@ -50,17 +44,31 @@ const Column: React.FC<Props> = ({ columnTitle, columnId }) => {
                 {columnTitle}
               </Typography.Title>
             }
-            dataSource={getColumnIssues()}
+            dataSource={filteredIssues}
             renderItem={(issue, index) => (
-              <List.Item>
-                <IssueCard key={issue.id} issue={issue} index={index} />
-              </List.Item>
-            )}
-          />
-          {provided.placeholder}
-        </div>
-      )}
-    </Droppable>
+              <Draggable
+              draggableId={issue.id.toString()}
+              index={index}
+              key={issue.id.toString()}
+            >
+              {(provided: DraggableProvided) => ( 
+                <div
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  ref={provided.innerRef}
+                >
+                  <IssueCard issue={issue} />
+                  <p>{columnId}</p>
+                  <p>{issue.id.toString()}</p>
+                </div>
+              )}
+            </Draggable>
+          )}
+        />
+        {provided.placeholder}
+      </div>
+    )}
+  </Droppable>
   );
 };
 

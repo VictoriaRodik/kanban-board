@@ -16,7 +16,7 @@ export interface Issue {
 interface StoreState {
   repoURL: string;
   isLoading: boolean;
-  issues: Issue[]; 
+  issues: Issue[];
   setRepoURL: (url: string) => void;
   setLoading: (loading: boolean) => void;
   setIssues: (issues: Issue[]) => void;
@@ -28,5 +28,5 @@ export const useStore = create<StoreState>((set) => ({
   issues: [], 
   setRepoURL: (url: string) => set({ repoURL: url }),
   setLoading: (loading: boolean) => set({ isLoading: loading }),
-  setIssues: (issues: Issue[]) => set({ issues: issues }) 
+  setIssues: (issues: Issue[]) => set({ issues: issues }),
 }));
