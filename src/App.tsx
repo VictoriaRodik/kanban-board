@@ -19,6 +19,7 @@ const App: React.FC = () => {
     }
   };
 
+
   return (
     <>
       <InputBlock onLoadIssues={handleLoadIssues} setRepoURL={setRepoURL} />

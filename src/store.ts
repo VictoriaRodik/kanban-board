@@ -1,5 +1,4 @@
-import { create } from 'zustand';
-
+import { create } from "zustand";
 
 export interface Issue {
   id: number;
@@ -9,7 +8,7 @@ export interface Issue {
   user: { login: string };
   created_at: Date;
   opened: string;
-  assignee: {id: number};
+  assignee: { id: number } | null;
   state: string;
 }
 
@@ -23,9 +22,9 @@ interface StoreState {
 }
 
 export const useStore = create<StoreState>((set) => ({
-  repoURL: '',
+  repoURL: "",
   isLoading: false,
-  issues: [], 
+  issues: [],
   setRepoURL: (url: string) => set({ repoURL: url }),
   setLoading: (loading: boolean) => set({ isLoading: loading }),
   setIssues: (issues: Issue[]) => set({ issues: issues }),
