@@ -5,7 +5,8 @@ export const styles = {
     borderColor: "#63aad3",
     borderRadius: "10px",
     margin: "0 1rem 1rem 1rem",
-    width: "300px"
+    width: "300px",
+    minHeight: "600px"
   },
   columnTitle: {
     padding: "1rem",

@@ -21,7 +21,7 @@ const Board: React.FC = () => {
     [key: string]: Issue[];
   }>({});
 
-  const saveToSessionStorage = (key: string, data: any) => {
+  const saveToSessionStorage = (key: string, data: Issue[]) => {
     const savedData = sessionStorage.getItem(key);
     if (savedData) {
       sessionStorage.removeItem(key);
@@ -42,9 +42,7 @@ const Board: React.FC = () => {
     setFilteredColumns(filteredColumnsData);
   }, [issues]);
 
-  const handleDragEnd = (result: DropResult) => {
-    const { destination, source, draggableId } = result;
-
+  const handleDragEnd = ({ destination, source, draggableId }: DropResult) => {
     if (
       !destination ||
       (destination.droppableId === source.droppableId &&
@@ -53,40 +51,48 @@ const Board: React.FC = () => {
       return;
     }
 
-    const updatedIssues = Array.from(issues);
-    const draggedIssue = updatedIssues.find(
+    const toDoIssues = [...filteredColumns["1"]];
+    const inProgressIssues = [...filteredColumns["2"]];
+    const doneIssues = [...filteredColumns["3"]];
+
+    const draggedIssue = issues.find(
       (issue) => issue.id.toString() === draggableId
     );
 
     if (!draggedIssue) {
       return;
     }
+    const sourceArray =
+      source.droppableId === "1"
+        ? toDoIssues
+        : source.droppableId === "2"
+        ? inProgressIssues
+        : doneIssues;
 
-    const newColumn = destination.droppableId;
+    sourceArray.splice(source.index, 1);
 
-    if (newColumn === "1") {
-      draggedIssue.assignee = null;
-      draggedIssue.state = "open";
-    } else if (newColumn === "2") {
-      draggedIssue.assignee = assignee;
-    } else if (newColumn === "3") {
-      draggedIssue.state = "closed";
+    if (source.droppableId === destination.droppableId) {
+      sourceArray.splice(destination.index, 0, draggedIssue);
+    } else {
+      if (destination.droppableId === "1") {
+        draggedIssue.assignee = null;
+        draggedIssue.state = "open";
+        toDoIssues.splice(destination.index, 0, draggedIssue);
+      } else if (destination.droppableId === "2") {
+        draggedIssue.assignee = assignee;
+        draggedIssue.state = "open";
+        inProgressIssues.splice(destination.index, 0, draggedIssue);
+      } else if (destination.droppableId === "3") {
+        draggedIssue.state = "closed";
+        doneIssues.splice(destination.index, 0, draggedIssue);
+      }
     }
 
-    const sourceIssues = updatedIssues.filter(
-      (issue) => issue.id.toString() !== draggableId
-    );
-    sourceIssues.splice(destination.index, 0, draggedIssue);
-
-    const updatedColumnIssues = sourceIssues.map((issue, index) => ({
-      ...issue,
-      number: index + 1,
-    }));
-
-    setIssues(updatedColumnIssues);
+    const sourceIssues = toDoIssues.concat(inProgressIssues, doneIssues);
+    setIssues(sourceIssues);
 
     const sessionStorageKey = `${repoURL}`;
-    saveToSessionStorage(sessionStorageKey, updatedColumnIssues);
+    saveToSessionStorage(sessionStorageKey, sourceIssues);
   };
 
   useEffect(() => {
