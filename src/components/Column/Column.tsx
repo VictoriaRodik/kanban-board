@@ -16,13 +16,12 @@ const Column: React.FC<Props> = ({ columnTitle, columnId, filteredIssues }) => {
     <Droppable droppableId={`${columnId}`}>
       {(provided) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
+          <Typography.Title level={4} style={styles.columnTitle}>
+            {columnTitle}
+          </Typography.Title>
           <List
+            size="small"
             style={styles.columnContainer}
-            header={
-              <Typography.Title level={4} style={styles.columnTitle}>
-                {columnTitle}
-              </Typography.Title>
-            }
             dataSource={filteredIssues}
             renderItem={(issue, index) => (
               <Draggable

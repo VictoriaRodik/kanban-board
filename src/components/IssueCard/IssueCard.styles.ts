@@ -2,17 +2,16 @@ export const styles = {
   cardContainer: {
     padding: "0",
     margin: "10px",
-    width: "250px",
-    borderRadius: "0",
+    width: "90%",
+    borderRadius: "5px",
+    border: "1px solid grey"
   },
   cardTitle: {
-    padding: "0",
-    margin: "0 0 7px 0",
+    textAlign: "left",
     fontWeight: "bold",
-
   },
   cardContent: {
     padding: "0",
     margin: "0",
-  }
+  },
 };

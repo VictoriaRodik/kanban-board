@@ -1,16 +1,16 @@
 export const styles = {
   columnContainer: {
-    backgroundColor: "#63aad3",
-    borderStyle: "solid",
-    borderColor: "#63aad3",
-    borderRadius: "10px",
+    border: "1px solid grey",
+    borderRadius: "5px",
     margin: "0 1rem 1rem 1rem",
-    width: "300px",
-    minHeight: "600px"
+    minWidth: "250px",
+    height: "400px",
+    overflow: "auto",
+    backgroundColor: "#4096FF"
   },
   columnTitle: {
+    color: "#4096FF",
     padding: "1rem",
-    margin: "0 12px 3px 12px",
-    backgroundColor: "white",
+    marginTop: "3rem",
   }
 }

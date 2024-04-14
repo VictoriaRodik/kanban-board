@@ -13,8 +13,8 @@ const IssueCard: React.FC<{ issue: Issue }> = ({ issue }) => {
   };
 
   return (
-    <Card bordered style={styles.cardContainer} hoverable>
-      <Flex>
+    <Card style={styles.cardContainer} size="small" hoverable>
+      <Flex align="start">
         <p style={styles.cardTitle}>{issue.title}</p>
       </Flex>
       <Flex gap="small">

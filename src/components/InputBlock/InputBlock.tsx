@@ -1,6 +1,7 @@
 import React from "react";
 import { Input, Button, Flex } from "antd";
 import { useStore } from "../../store";
+import { styles } from "./InputBlock.styles";
 
 interface InputBlockProps {
   onLoadIssues: () => void;
@@ -12,6 +13,7 @@ const InputBlock: React.FC<InputBlockProps> = ({
   setRepoURL,
 }) => {
   const { repoURL } = useStore();
+  const [owner, repo] = repoURL.split("/").slice(3);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRepoURL(event.target.value);
@@ -22,32 +24,37 @@ const InputBlock: React.FC<InputBlockProps> = ({
   };
 
   return (
-    <>
+    <Flex vertical style={styles.inputBlockContainer}>
       <Flex gap="small">
         <Input placeholder="Enter Repo URL" onChange={handleInputChange} />
         <Button type="primary" onClick={handleLoadIssuesClick}>
           Load Issues
         </Button>
       </Flex>
-      <Button
-        type="link"
-        block
-        href={`https://github.com/${repoURL.split("/")[3]}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Owner Profile
-      </Button>
-      <Button
-        type="link"
-        block
-        href={repoURL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Repository
-      </Button>
-    </>
+      <Flex justify="flex-start" style={styles.linksContainer}>
+        <Button
+          type="link"
+          block
+          href={`https://github.com/${repoURL.split("/")[3]}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textAlign: "left", width: "auto" }}
+        >
+          {owner}
+        </Button>
+        {repoURL ? ` > ` : null}
+        <Button
+          type="link"
+          block
+          href={repoURL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textAlign: "left" }}
+        >
+          {repo}
+        </Button>
+      </Flex>
+    </Flex>
   );
 };
 

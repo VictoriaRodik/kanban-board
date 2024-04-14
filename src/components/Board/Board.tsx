@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DropResult, DragDropContext } from "react-beautiful-dnd";
 import { useStore } from "../../store";
 import { Issue } from "../../store";
-import { Flex } from "antd";
+import { Row, Col } from "antd";
 import Column from "../Column/Column";
 
 const assignee = {
@@ -105,16 +105,17 @@ const Board: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <Flex gap="small" justify="space-around">
-        {columns.map((column) => (
-          <Column
-            key={column.columnId}
-            columnId={column.columnId}
-            columnTitle={column.columnTitle}
-            filteredIssues={filteredColumns[column.columnId]}
-          />
-        ))}
-      </Flex>
+        <Row gutter={{ xs: 8, sm: 16, md: 24}}>
+          {columns.map((column) => (
+            <Col key={column.columnId} span={8}>
+              <Column
+                columnId={column.columnId}
+                columnTitle={column.columnTitle}
+                filteredIssues={filteredColumns[column.columnId]}
+              />
+            </Col>
+          ))}
+        </Row>
     </DragDropContext>
   );
 };
