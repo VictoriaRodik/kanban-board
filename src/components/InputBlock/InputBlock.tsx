@@ -34,7 +34,6 @@ const InputBlock: React.FC<InputBlockProps> = ({
       <Flex justify="flex-start" style={styles.linksContainer}>
         <Button
           type="link"
-          block
           href={`https://github.com/${repoURL.split("/")[3]}`}
           target="_blank"
           rel="noopener noreferrer"
@@ -42,10 +41,11 @@ const InputBlock: React.FC<InputBlockProps> = ({
         >
           {owner}
         </Button>
-        {repoURL ? ` > ` : null}
+        <Button type="link" style={{ border: "none" }}>
+          {repoURL && ">"}
+        </Button>
         <Button
           type="link"
-          block
           href={repoURL}
           target="_blank"
           rel="noopener noreferrer"
