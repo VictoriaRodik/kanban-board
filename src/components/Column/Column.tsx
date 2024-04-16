@@ -1,5 +1,5 @@
 import React from "react";
-import { Issue } from "../../store";
+import { Issue } from "../../../zustand/store";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import IssueCard from "../IssueCard/IssueCard";
 import { styles } from "./Column.styles";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DropResult, DragDropContext } from "react-beautiful-dnd";
-import { useStore } from "../../store";
-import { Issue } from "../../store";
+import { useStore } from "../../../zustand/store";
+import { Issue } from "../../../zustand/store";
 import { Row, Col } from "antd";
 import Column from "../Column/Column";
 

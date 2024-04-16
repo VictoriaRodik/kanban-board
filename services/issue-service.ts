@@ -1,4 +1,4 @@
-import { Issue } from "../../store";
+import { Issue } from "../zustand/store";
 
 export async function fetchIssues(repoURL: string): Promise<Issue[]> {
   try {

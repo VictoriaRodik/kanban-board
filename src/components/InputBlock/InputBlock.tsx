@@ -1,6 +1,6 @@
 import React from "react";
 import { Input, Button, Flex } from "antd";
-import { useStore } from "../../store";
+import { useStore } from "../../../zustand/store";
 import { styles } from "./InputBlock.styles";
 
 interface InputBlockProps {
@@ -41,7 +41,7 @@ const InputBlock: React.FC<InputBlockProps> = ({
         >
           {owner}
         </Button>
-        <Button type="link" style={{ border: "none" }}>
+        <Button type="link" href={`*`}>
           {repoURL && ">"}
         </Button>
         <Button
