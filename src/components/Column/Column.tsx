@@ -5,7 +5,7 @@ import IssueCard from "../IssueCard/IssueCard";
 import { styles } from "./Column.styles";
 import { List, Typography } from "antd";
 
-interface Props {
+export interface Props {
   columnTitle: string;
   columnId: string;
   filteredIssues: Issue[];
@@ -47,5 +47,7 @@ const Column: React.FC<Props> = ({ columnTitle, columnId, filteredIssues }) => {
     </Droppable>
   );
 };
+
+
 
 export default Column;
