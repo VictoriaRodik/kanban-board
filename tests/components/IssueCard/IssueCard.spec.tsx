@@ -3,17 +3,14 @@ import IssueCard from "../../../src/components/IssueCard/IssueCard";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 
-
 vi.mock("antd", async () => {
-  const actual = await vi.importActual("antd")
+  const actual = await vi.importActual("antd");
   return {
     ...actual,
     Flex: vi.fn(({ children }) => <div>{children}</div>),
-    Card: vi.fn(({ children }) => <div>{children}</div>)
-  }
-})
-
-
+    Card: vi.fn(({ children }) => <div>{children}</div>),
+  };
+});
 
 describe("IssueCard component", () => {
   const mockedIssue = {

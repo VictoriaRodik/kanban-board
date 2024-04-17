@@ -17,6 +17,7 @@ const columns = [
 
 const Board: React.FC = () => {
   const { issues, setIssues, repoURL } = useStore();
+  
   const [filteredColumns, setFilteredColumns] = useState<{
     [key: string]: Issue[];
   }>({});
@@ -28,19 +29,6 @@ const Board: React.FC = () => {
     }
     sessionStorage.setItem(key, JSON.stringify(data));
   };
-
-  useEffect(() => {
-    const filteredColumnsData = {
-      "1": issues.filter(
-        (issue) => issue.state === "open" && issue.assignee === null
-      ),
-      "2": issues.filter(
-        (issue) => issue.state === "open" && issue.assignee !== null
-      ),
-      "3": issues.filter((issue) => issue.state === "closed"),
-    };
-    setFilteredColumns(filteredColumnsData);
-  }, [issues]);
 
   const handleDragEnd = ({ destination, source, draggableId }: DropResult) => {
     if (
@@ -96,6 +84,19 @@ const Board: React.FC = () => {
   };
 
   useEffect(() => {
+    const filteredColumnsData = {
+      "1": issues.filter(
+        (issue) => issue.state === "open" && issue.assignee === null
+      ),
+      "2": issues.filter(
+        (issue) => issue.state === "open" && issue.assignee !== null
+      ),
+      "3": issues.filter((issue) => issue.state === "closed"),
+    };
+    setFilteredColumns(filteredColumnsData);
+  }, [issues]);
+
+  useEffect(() => {
     const sessionStorageKey = `${repoURL}`;
     const savedIssues = sessionStorage.getItem(sessionStorageKey);
     if (savedIssues) {
@@ -105,17 +106,17 @@ const Board: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-        <Row gutter={{ xs: 8, sm: 16, md: 24}}>
-          {columns.map((column) => (
-            <Col key={column.columnId} span={8}>
-              <Column
-                columnId={column.columnId}
-                columnTitle={column.columnTitle}
-                filteredIssues={filteredColumns[column.columnId]}
-              />
-            </Col>
-          ))}
-        </Row>
+      <Row gutter={{ xs: 8, sm: 16, md: 24 }}>
+        {columns.map((column) => (
+          <Col key={column.columnId} span={8}>
+            <Column
+              columnId={column.columnId}
+              columnTitle={column.columnTitle}
+              filteredIssues={filteredColumns[column.columnId]}
+            />
+          </Col>
+        ))}
+      </Row>
     </DragDropContext>
   );
 };

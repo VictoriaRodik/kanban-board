@@ -50,10 +50,10 @@ describe("Column component", () => {
     };
   });
 
-  it("renders column title and issues correctly", () => {
+  it("should render column title correctly", () => {
     render(
       <DragDropContext onDragEnd={vi.fn()}>
-        <Droppable droppableId="test-droppable">
+        <Droppable droppableId="1">
           {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
               <Column {...props} />
@@ -66,15 +66,12 @@ describe("Column component", () => {
 
     expect(screen.getByText("Test Column")).toBeTruthy();
 
-    props.filteredIssues.forEach((issue) => {
-      expect(screen.getByText(issue.title)).toBeTruthy();
-    });
   });
 
-  it("renders issues in correct order", () => {
+  it("should render issues", () => {
     render(
       <DragDropContext onDragEnd={vi.fn()}>
-        <Droppable droppableId="test-droppable">
+        <Droppable droppableId="1">
           {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
               <Column {...props} />
