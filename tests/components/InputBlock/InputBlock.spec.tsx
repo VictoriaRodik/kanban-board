@@ -31,17 +31,19 @@ describe("InputBlock component", () => {
     expect(input).toBeTruthy;
     const button = screen.getByText("Load Issues");
     expect(button).toBeTruthy;
-    const links = screen.getAllByRole("button");
+    const links = screen.getAllByRole("link");
     expect(links.length).toEqual(1);
   });
 
-  it("should have correct href attribute for the third button", () => {
-    const link = screen.getAllByRole("link")[1];
+  it("should render links if url is not empty", () => {
     const input = screen.getByRole("textbox");
     const url = "https://github.com/facebook/react";
+    const button = screen.getByText("Load Issues");
 
     fireEvent.change(input, { target: { value: url } });
-    expect(link).toBeDefined();
+    fireEvent.click(button);
+
+    expect(screen.getByText(">")).toBeTruthy();
   });
 
   it("should call the setRepoURL function ", () => {
