@@ -64,8 +64,7 @@ describe("Column component", () => {
       </DragDropContext>
     );
 
-    expect(screen.getByText("Test Column")).toBeTruthy();
-
+    expect(screen.getByText("Test Column")).toBeInTheDocument();
   });
 
   it("should render issues", () => {
@@ -83,7 +82,7 @@ describe("Column component", () => {
     );
 
     props.filteredIssues.forEach((issue) => {
-      expect(screen.getAllByText(issue.title)).toBeTruthy();
+      expect(screen.getAllByText(issue.title).length).toBeGreaterThanOrEqual(1);
     });
   });
 });

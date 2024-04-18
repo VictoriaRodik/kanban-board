@@ -28,22 +28,29 @@ describe("InputBlock component", () => {
 
   it("should render the elements ", () => {
     const input = screen.getByRole("textbox");
-    expect(input).toBeTruthy;
+    expect(input).toBeInTheDocument();
     const button = screen.getByText("Load Issues");
-    expect(button).toBeTruthy;
+    expect(button).toBeInTheDocument();
     const links = screen.getAllByRole("link");
     expect(links.length).toEqual(1);
   });
 
   it("should render links if url is not empty", () => {
     const input = screen.getByRole("textbox");
-    const url = "https://github.com/facebook/react";
     const button = screen.getByText("Load Issues");
-
-    fireEvent.change(input, { target: { value: url } });
+  
+    expect(screen.queryByText(">")).not.toBeInTheDocument();
+  
+    fireEvent.change(input, { target: { value: "https://github.com/facebook/react" } });
     fireEvent.click(button);
+  
+    const linkButton = screen.getByText(">");
+    expect(linkButton).toBeInTheDocument();
+  });
 
-    expect(screen.getByText(">")).toBeTruthy();
+  it("should not render links if url is empty", () => {
+    const links = screen.getAllByRole("link");
+    links.forEach((link) => expect(link).toBeEmptyDOMElement());
   });
 
   it("should call the setRepoURL function ", () => {

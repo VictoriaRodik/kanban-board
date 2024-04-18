@@ -31,15 +31,15 @@ describe("IssueCard component", () => {
 
   it("should render issue props", () => {
     const title = screen.getByText("issue title");
-    expect(title).toBeTruthy;
+    expect(title).toBeInTheDocument();
 
     const number = screen.getByText("#1");
-    expect(number).toBeTruthy;
+    expect(number).toBeInTheDocument();
 
     const user = screen.getByText("User");
-    expect(user).toBeTruthy;
+    expect(user).toBeInTheDocument();
 
     const comments = screen.getByText("| Comments: 5");
-    expect(comments).toBeTruthy;
+    expect(comments).toBeInTheDocument();
   });
 });
