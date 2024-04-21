@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "services", "zustand/store.ts"],
+  "include": ["src", "src/services", "src/zustand/store.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

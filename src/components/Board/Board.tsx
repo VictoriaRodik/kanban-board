@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DropResult, DragDropContext } from "react-beautiful-dnd";
-import { useStore } from "../../../zustand/store";
-import { Issue } from "../../../zustand/store";
+import { useStore } from "../../zustand/store";
+import { Issue } from "../../zustand/store";
 import { Row, Col } from "antd";
 import Column from "../Column/Column";
 
@@ -106,9 +106,9 @@ const Board: React.FC = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <Row gutter={{ xs: 8, sm: 16, md: 24 }}>
+      <Row gutter={{ xs: 8, sm: 8, md: 16, lg: 24 }} >
         {columns.map((column) => (
-          <Col key={column.columnId} span={8}>
+          <Col key={column.columnId} span={8} xs={24} sm={12} md={12} lg={8} xl={8}>
             <Column
               columnId={column.columnId}
               columnTitle={column.columnTitle}

@@ -1,25 +1,16 @@
 import React from "react";
 import InputBlock from "../../../src/components/InputBlock/InputBlock";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 
 const mockedOnLoadissues = vi.fn();
 const mockSetRepoURL = vi.fn();
 
-vi.mock("antd", async () => {
-  const actual = await vi.importActual("antd");
-  return {
-    ...actual,
-    Flex: vi.fn(({ children }) => <div>{children}</div>),
-  };
-});
-
-vi.mock("../zustand/store", () => ({
-  useStore: () => ({
-    repoURL: "",
-  }),
+vi.mock("../../../src/zustand/store", () => ({
+  useStore: vi.fn(() => ({
+    repoURL: "https://github.com/facebook/react",
+  })),
 }));
 
 describe("InputBlock component", () => {
@@ -38,25 +29,7 @@ describe("InputBlock component", () => {
     const button = screen.getByText("Load Issues");
     expect(button).toBeInTheDocument();
     const links = screen.getAllByRole("link");
-    expect(links.length).toEqual(1);
-  });
-
-  it("should render links if url is not empty", () => {
-    const input = screen.getByRole("textbox");
-    const button = screen.getByText("Load Issues");
-
-    expect(screen.queryByText(">")).not.toBeInTheDocument();
-
-    fireEvent.change(input, {
-      target: { value: "https://github.com/facebook/react" },
-    });
-
-     // expect(screen.getByText(/>/)).toBeInTheDocument();
-  });
-
-  it("should not render links if url is empty", () => {
-    const links = screen.getAllByRole("link");
-    links.forEach((link) => expect(link).toBeEmptyDOMElement());
+    expect(links.length).toEqual(2);
   });
 
   it("should call the setRepoURL function ", () => {
@@ -71,5 +44,14 @@ describe("InputBlock component", () => {
     const button = screen.getByText("Load Issues");
     fireEvent.click(button);
     expect(mockedOnLoadissues).toHaveBeenCalled();
+  });
+
+  it("should render links if url is not empty", () => {
+    const symbol = screen.getByText(/>/);
+    const react = screen.getByText(/react/i);
+    const facebook = screen.getByText(/facebook/i);
+    expect(symbol).toBeInTheDocument();
+    expect(react).toBeInTheDocument();
+    expect(facebook).toBeInTheDocument();
   });
 });

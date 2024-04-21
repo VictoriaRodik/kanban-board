@@ -1,6 +1,6 @@
 import React from "react";
 import { Input, Button, Flex } from "antd";
-import { useStore } from "../../../zustand/store";
+import { useStore } from "../../zustand/store";
 import { styles } from "./InputBlock.styles";
 
 interface InputBlockProps {

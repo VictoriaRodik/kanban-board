@@ -2,8 +2,8 @@ import React from "react";
 import "./App.css";
 import Board from "./components/Board/Board";
 import InputBlock from "./components/InputBlock/InputBlock";
-import { useStore } from "../zustand/store";
-import { fetchIssues } from "../services/issue-service";
+import { useStore } from "./zustand/store";
+import { fetchIssues } from "../src/services/issue-service";
 
 
 const App: React.FC = () => {

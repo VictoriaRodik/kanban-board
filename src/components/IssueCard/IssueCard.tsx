@@ -1,5 +1,5 @@
 import React from "react";
-import { Issue } from "../../../zustand/store";
+import { Issue } from "../../zustand/store";
 import { Card, Flex } from "antd";
 import { styles } from "./IssueCard.styles";
 
